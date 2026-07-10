@@ -31,7 +31,11 @@ class SmsSendState {
 
   SmsSendState({this.isLoading = false, this.error, this.lastSentMessage});
 
-  SmsSendState copyWith({bool? isLoading, String? error, SmsMessage? lastSentMessage}) {
+  SmsSendState copyWith({
+    bool? isLoading,
+    String? error,
+    SmsMessage? lastSentMessage,
+  }) {
     return SmsSendState(
       isLoading: isLoading ?? this.isLoading,
       error: error,
@@ -60,7 +64,9 @@ class SmsNotifier extends StateNotifier<SmsSendState> {
   }
 }
 
-final smsNotifierProvider = StateNotifierProvider<SmsNotifier, SmsSendState>((ref) {
+final smsNotifierProvider = StateNotifierProvider<SmsNotifier, SmsSendState>((
+  ref,
+) {
   final repository = ref.watch(smsRepositoryProvider);
   return SmsNotifier(repository, ref);
 });

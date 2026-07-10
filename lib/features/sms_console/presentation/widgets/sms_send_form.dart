@@ -91,7 +91,9 @@ class _SmsSendFormState extends ConsumerState<SmsSendForm> {
                     ? null
                     : () {
                         if (_formKey.currentState!.validate()) {
-                          ref.read(smsNotifierProvider.notifier).sendSms(
+                          ref
+                              .read(smsNotifierProvider.notifier)
+                              .sendSms(
                                 _phoneController.text,
                                 _bodyController.text,
                               );

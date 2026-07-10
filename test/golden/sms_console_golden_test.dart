@@ -13,9 +13,7 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          smsRepositoryProvider.overrideWithValue(mockRepository),
-        ],
+        overrides: [smsRepositoryProvider.overrideWithValue(mockRepository)],
         child: const MaterialApp(
           debugShowCheckedModeBanner: false,
           home: SmsConsolePage(),

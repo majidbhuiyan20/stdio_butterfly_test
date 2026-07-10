@@ -13,7 +13,7 @@ void main() {
         "status": "DELIVERED",
         "segmentCount": 2,
         "cost": "0.1500",
-        "sentAt": "2026-07-09T08:14:22Z"
+        "sentAt": "2026-07-09T08:14:22Z",
       };
 
       final model = SmsMessageModel.fromJson(json);
@@ -32,8 +32,8 @@ void main() {
         "totalCost": "12.4500",
         "rows": [
           {"provider": "TWILIO", "totalCost": "8.2500", "messageCount": 110},
-          {"provider": "AWS_SNS", "totalCost": "4.2000", "messageCount": 91}
-        ]
+          {"provider": "AWS_SNS", "totalCost": "4.2000", "messageCount": 91},
+        ],
       };
 
       final model = CostBreakdownModel.fromJson(json);

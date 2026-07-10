@@ -26,12 +26,12 @@ class AppTheme {
   }
 
   static CardThemeData get _cardTheme => CardThemeData(
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      );
+    elevation: 2,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  );
 
   static InputDecorationTheme get _inputDecorationTheme => InputDecorationTheme(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        filled: true,
-      );
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+    filled: true,
+  );
 }

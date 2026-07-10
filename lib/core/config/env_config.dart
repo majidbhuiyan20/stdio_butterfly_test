@@ -14,7 +14,10 @@ class EnvConfig {
   /// Loads configuration from the .env file.
   factory EnvConfig.fromDotEnv() {
     return EnvConfig(
-      apiBaseUrl: dotenv.get('API_BASE_URL', fallback: 'http://api.formwork.internal'),
+      apiBaseUrl: dotenv.get(
+        'API_BASE_URL',
+        fallback: 'http://api.formwork.internal',
+      ),
       apiKey: dotenv.get('API_KEY', fallback: ''),
       tenantId: dotenv.get('TENANT_ID', fallback: ''),
     );

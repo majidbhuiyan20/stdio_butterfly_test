@@ -32,7 +32,7 @@ void main() {
       final awsRate = Decimal.parse('0.0450');
 
       final twilioCost = twilioRate * Decimal.fromInt(110); // 8.25
-      final awsCost = awsRate * Decimal.fromInt(91);      // 4.095
+      final awsCost = awsRate * Decimal.fromInt(91); // 4.095
 
       final total = twilioCost + awsCost;
 

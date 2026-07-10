@@ -15,22 +15,30 @@ class CostBreakdownWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Cost Breakdown', style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'Cost Breakdown',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 16),
             breakdownAsync.when(
               data: (breakdown) => Column(
                 children: [
-                  ...breakdown.rows.map((row) => ListTile(
-                        title: Text(row.provider),
-                        subtitle: Text('${row.messageCount} messages'),
-                        trailing: Text(
-                          '${breakdown.currency} ${row.totalCost.toStringAsFixed(4)}',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      )),
+                  ...breakdown.rows.map(
+                    (row) => ListTile(
+                      title: Text(row.provider),
+                      subtitle: Text('${row.messageCount} messages'),
+                      trailing: Text(
+                        '${breakdown.currency} ${row.totalCost.toStringAsFixed(4)}',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
                   const Divider(),
                   ListTile(
-                    title: const Text('Total', style: TextStyle(fontWeight: FontWeight.bold)),
+                    title: const Text(
+                      'Total',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     trailing: Text(
                       '${breakdown.currency} ${breakdown.totalCost.toStringAsFixed(4)}',
                       style: const TextStyle(
@@ -43,7 +51,10 @@ class CostBreakdownWidget extends ConsumerWidget {
                 ],
               ),
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Text('Error: $err', style: const TextStyle(color: Colors.red)),
+              error: (err, stack) => Text(
+                'Error: $err',
+                style: const TextStyle(color: Colors.red),
+              ),
             ),
           ],
         ),

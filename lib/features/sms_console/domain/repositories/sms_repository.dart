@@ -14,8 +14,5 @@ abstract class SmsRepository {
     required DateTime to,
   });
 
-  Future<List<SmsMessage>> getMessages({
-    String? cursor,
-    int limit = 50,
-  });
+  Future<List<SmsMessage>> getMessages({String? cursor, int limit = 50});
 }

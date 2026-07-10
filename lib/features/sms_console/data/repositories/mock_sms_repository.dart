@@ -52,7 +52,8 @@ class MockSmsRepository implements SmsRepository {
       recipient: to.replaceRange(5, to.length - 2, '*****'),
       status: SmsStatus.accepted,
       segmentCount: (body.length / 160).ceil(),
-      cost: Decimal.parse('0.0750') * Decimal.fromInt((body.length / 160).ceil()),
+      cost:
+          Decimal.parse('0.0750') * Decimal.fromInt((body.length / 160).ceil()),
       currency: 'EUR',
       sentAt: DateTime.now(),
     );
@@ -94,10 +95,7 @@ class MockSmsRepository implements SmsRepository {
   }
 
   @override
-  Future<List<SmsMessage>> getMessages({
-    String? cursor,
-    int limit = 50,
-  }) async {
+  Future<List<SmsMessage>> getMessages({String? cursor, int limit = 50}) async {
     await Future.delayed(const Duration(milliseconds: 500));
     return _messages;
   }

@@ -71,10 +71,7 @@ class _DesktopLayout extends StatelessWidget {
             ),
           ),
           SizedBox(width: 24),
-          Expanded(
-            flex: 1,
-            child: CostBreakdownWidget(),
-          ),
+          Expanded(flex: 1, child: CostBreakdownWidget()),
         ],
       ),
     );

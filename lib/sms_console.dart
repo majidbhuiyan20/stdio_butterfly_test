@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
 const String kApiBase = 'http://api.formwork.internal';
 const String kApiKey = 'fw_live_8c21e0b47ad94f13ba77e0c9d51a3b62';
 const String kTenantId = '9f1c2d3e-4a5b-6c7d-8e9f-0a1b2c3d4e5f';
@@ -86,7 +85,9 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
       AppState.totalCost = AppState.totalCost + cost;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Sent via $provider — €${cost.toStringAsFixed(4)}')),
+        SnackBar(
+          content: Text('Sent via $provider — €${cost.toStringAsFixed(4)}'),
+        ),
       );
 
       await loadCosts();
@@ -115,10 +116,7 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
                     decoration: const InputDecoration(labelText: 'Message'),
                   ),
                   const SizedBox(height: 12),
-                  ElevatedButton(
-                    onPressed: sendSms,
-                    child: const Text('Send'),
-                  ),
+                  ElevatedButton(onPressed: sendSms, child: const Text('Send')),
                   const SizedBox(height: 12),
                   Text('Total: €${AppState.totalCost.toStringAsFixed(2)}'),
                   Expanded(
@@ -129,10 +127,13 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
                       ),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
                         }
                         final rows =
-                            jsonDecode(snapshot.data!.body)['rows'] as List<dynamic>;
+                            jsonDecode(snapshot.data!.body)['rows']
+                                as List<dynamic>;
                         return ListView.builder(
                           itemCount: rows.length,
                           itemBuilder: (context, i) {

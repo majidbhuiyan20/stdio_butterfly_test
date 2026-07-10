@@ -18,33 +18,37 @@ void main() {
   });
 
   group('SmsRepositoryImpl', () {
-    test('sendSms should use values from server response, not local logic', () async {
-      // Setup: Server returns different values than what a "local" logic might guess
-      final response = {
-        "messageId": "SM_SERVER_ID",
-        "status": "SENT",
-        "segmentCount": 3, // Server says 3 segments
-        "cost": "0.2250",  // Server says 0.2250
-        "currency": "EUR"
-      };
+    test(
+      'sendSms should use values from server response, not local logic',
+      () async {
+        // Setup: Server returns different values than what a "local" logic might guess
+        final response = {
+          "messageId": "SM_SERVER_ID",
+          "status": "SENT",
+          "segmentCount": 3, // Server says 3 segments
+          "cost": "0.2250", // Server says 0.2250
+          "currency": "EUR",
+        };
 
-      when(() => mockApiClient.post(any(), any()))
-          .thenAnswer((_) async => response);
+        when(
+          () => mockApiClient.post(any(), any()),
+        ).thenAnswer((_) async => response);
 
-      final result = await repository.sendSms(
-        to: '+4915112345678',
-        body: 'Short body', // Local logic might guess 1 segment
-      );
+        final result = await repository.sendSms(
+          to: '+4915112345678',
+          body: 'Short body', // Local logic might guess 1 segment
+        );
 
-      // Verify ApiClient was called with correct endpoint
-      verify(() => mockApiClient.post(ApiEndpoints.sendSms, any())).called(1);
+        // Verify ApiClient was called with correct endpoint
+        verify(() => mockApiClient.post(ApiEndpoints.sendSms, any())).called(1);
 
-      // Verify result matches server response, not local guesses
-      expect(result.id, "SM_SERVER_ID");
-      expect(result.segmentCount, 3);
-      expect(result.cost, Decimal.parse('0.2250'));
-      expect(result.status, SmsStatus.sent);
-    });
+        // Verify result matches server response, not local guesses
+        expect(result.id, "SM_SERVER_ID");
+        expect(result.segmentCount, 3);
+        expect(result.cost, Decimal.parse('0.2250'));
+        expect(result.status, SmsStatus.sent);
+      },
+    );
 
     test('getMessages should map items correctly', () async {
       final response = {
@@ -55,14 +59,15 @@ void main() {
             "status": "DELIVERED",
             "segmentCount": 1,
             "cost": "0.0750",
-            "sentAt": "2026-07-09T08:14:22Z"
-          }
+            "sentAt": "2026-07-09T08:14:22Z",
+          },
         ],
-        "nextCursor": null
+        "nextCursor": null,
       };
 
-      when(() => mockApiClient.get(any(), query: any(named: 'query')))
-          .thenAnswer((_) async => response);
+      when(
+        () => mockApiClient.get(any(), query: any(named: 'query')),
+      ).thenAnswer((_) async => response);
 
       final result = await repository.getMessages();
 

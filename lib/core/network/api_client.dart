@@ -9,23 +9,28 @@ class ApiClient {
 
   ApiClient(this._client, this._config);
 
-  Future<Map<String, dynamic>> get(String path, {Map<String, String>? query}) async {
-    final uri = Uri.parse('${_config.apiBaseUrl}$path').replace(queryParameters: query);
-    
+  Future<Map<String, dynamic>> get(
+    String path, {
+    Map<String, String>? query,
+  }) async {
+    final uri = Uri.parse(
+      '${_config.apiBaseUrl}$path',
+    ).replace(queryParameters: query);
+
     try {
-      final response = await _client.get(
-        uri,
-        headers: _headers,
-      );
+      final response = await _client.get(uri, headers: _headers);
       return _handleResponse(response);
     } catch (e) {
       throw ServerFailure(e.toString());
     }
   }
 
-  Future<Map<String, dynamic>> post(String path, Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> post(
+    String path,
+    Map<String, dynamic> body,
+  ) async {
     final uri = Uri.parse('${_config.apiBaseUrl}$path');
-    
+
     try {
       final response = await _client.post(
         uri,
@@ -39,10 +44,10 @@ class ApiClient {
   }
 
   Map<String, String> get _headers => {
-        'Authorization': 'Bearer ${_config.apiKey}',
-        'X-Tenant-Id': _config.tenantId,
-        'Content-Type': 'application/json',
-      };
+    'Authorization': 'Bearer ${_config.apiKey}',
+    'X-Tenant-Id': _config.tenantId,
+    'Content-Type': 'application/json',
+  };
 
   Map<String, dynamic> _handleResponse(http.Response response) {
     if (response.statusCode >= 200 && response.statusCode < 300) {

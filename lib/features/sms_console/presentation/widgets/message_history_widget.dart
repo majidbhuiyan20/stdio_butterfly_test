@@ -17,7 +17,10 @@ class MessageHistoryWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Message History', style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'Message History',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 16),
             historyAsync.when(
               data: (messages) {
@@ -64,7 +67,10 @@ class MessageHistoryWidget extends ConsumerWidget {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Text('Error: $err', style: const TextStyle(color: Colors.red)),
+              error: (err, stack) => Text(
+                'Error: $err',
+                style: const TextStyle(color: Colors.red),
+              ),
             ),
           ],
         ),
@@ -94,10 +100,14 @@ class MessageHistoryWidget extends ConsumerWidget {
 
   Color _getStatusColor(SmsStatus status) {
     switch (status) {
-      case SmsStatus.delivered: return Colors.green;
-      case SmsStatus.failed: return Colors.red;
-      case SmsStatus.sent: return Colors.blue;
-      case SmsStatus.accepted: return Colors.orange;
+      case SmsStatus.delivered:
+        return Colors.green;
+      case SmsStatus.failed:
+        return Colors.red;
+      case SmsStatus.sent:
+        return Colors.blue;
+      case SmsStatus.accepted:
+        return Colors.orange;
     }
   }
 }
