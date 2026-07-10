@@ -7,9 +7,15 @@ import '../../domain/repositories/sms_repository.dart';
 
 class MockSmsRepository implements SmsRepository {
   final List<SmsMessage> _messages = [];
-  final _random = Random();
+  final Random _random;
 
-  MockSmsRepository() {
+  /// Use a fixed seed by default so tests (e.g. golden tests) are
+  /// deterministic. A [seed] can be supplied for explicit control.
+  MockSmsRepository({int? seed}) : _random = Random(seed ?? 42) {
+    // Use a fixed "now" reference so the rendered timestamps are stable
+    // across test runs regardless of when the test executes.
+    final referenceNow = DateTime(2024, 1, 15, 12, 0, 0);
+
     // Add some initial mock data
     _messages.addAll([
       SmsMessage(
@@ -19,7 +25,7 @@ class MockSmsRepository implements SmsRepository {
         segmentCount: 1,
         cost: Decimal.parse('0.0750'),
         currency: 'EUR',
-        sentAt: DateTime.now().subtract(const Duration(hours: 2)),
+        sentAt: referenceNow.subtract(const Duration(hours: 2)),
       ),
       SmsMessage(
         id: 'SM2',
@@ -28,7 +34,7 @@ class MockSmsRepository implements SmsRepository {
         segmentCount: 2,
         cost: Decimal.parse('0.1500'),
         currency: 'EUR',
-        sentAt: DateTime.now().subtract(const Duration(days: 1)),
+        sentAt: referenceNow.subtract(const Duration(days: 1)),
       ),
     ]);
   }

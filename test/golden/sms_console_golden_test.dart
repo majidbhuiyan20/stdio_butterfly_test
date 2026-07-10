@@ -6,6 +6,9 @@ import 'package:studio_butterfly_test/features/sms_console/presentation/provider
 import 'package:studio_butterfly_test/features/sms_console/data/repositories/mock_sms_repository.dart';
 
 void main() {
+  // Marked with the `golden` tag so it can be excluded from CI runs
+  // where pixel-perfect rendering is platform-sensitive. Run locally
+  // with `flutter test --update-goldens test/golden/` to regenerate.
   testWidgets('SmsConsolePage Golden Test', (WidgetTester tester) async {
     // We use the MockSmsRepository to have stable data for the golden test
     final mockRepository = MockSmsRepository();
@@ -26,5 +29,5 @@ void main() {
       find.byType(SmsConsolePage),
       matchesGoldenFile('goldens/sms_console_page.png'),
     );
-  });
+  }, tags: ['golden']);
 }

@@ -1,0 +1,12 @@
+# Configuration for the Dart test runner.
+#
+# Tags declared here are recognized when using --exclude-tags / --tags.
+# See: https://github.com/dart-lang/test/blob/master/pkgs/test/doc/configuration.md
+tags:
+  golden:
+    description: >
+      Pixel-perfect golden image tests. Excluded from CI runs because
+      font rendering differs across platforms (macOS / Linux / Windows).
+      Run locally with `flutter test --update-goldens test/golden/` to
+      regenerate the baseline images.
+    skip: false

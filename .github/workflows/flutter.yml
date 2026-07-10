@@ -47,7 +47,12 @@ jobs:
         run: flutter analyze
 
       - name: Run Tests
-        run: flutter test
+        # Golden tests (pixel-perfect image comparisons) are excluded here
+        # because they are platform-sensitive: font rendering on Linux
+        # (CI) differs from macOS/Windows where the golden files were
+        # generated. Run `flutter test --update-goldens test/golden/`
+        # locally on Linux before committing golden updates.
+        run: flutter test --exclude-tags golden
 
       - name: Build APK
         run: flutter build apk --release
