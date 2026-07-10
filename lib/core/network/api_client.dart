@@ -20,6 +20,8 @@ class ApiClient {
     try {
       final response = await _client.get(uri, headers: _headers);
       return _handleResponse(response);
+    } on Failure {
+      rethrow;
     } catch (e) {
       throw ServerFailure(e.toString());
     }
@@ -38,6 +40,8 @@ class ApiClient {
         body: jsonEncode(body),
       );
       return _handleResponse(response);
+    } on Failure {
+      rethrow;
     } catch (e) {
       throw ServerFailure(e.toString());
     }

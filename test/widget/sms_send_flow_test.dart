@@ -40,7 +40,10 @@ void main() {
         to: any(named: 'to'),
         body: any(named: 'body'),
       ),
-    ).thenAnswer((_) async => successMessage);
+    ).thenAnswer((_) async {
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      return successMessage;
+    });
 
     await tester.pumpWidget(createWidgetUnderTest());
 
@@ -53,6 +56,7 @@ void main() {
     await tester.pump(); // Start animation
 
     // Verify loading state
+    await tester.pump(const Duration(milliseconds: 50));
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
     await tester.pumpAndSettle(); // Finish request and animations

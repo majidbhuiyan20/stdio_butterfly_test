@@ -16,60 +16,75 @@ class MessageHistoryWidget extends ConsumerWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               'Message History',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 16),
-            historyAsync.when(
-              data: (messages) {
-                if (messages.isEmpty) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 32.0),
-                    child: Center(child: Text('No messages sent yet.')),
-                  );
-                }
-                return ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: messages.length,
-                  separatorBuilder: (context, index) => const Divider(),
-                  itemBuilder: (context, index) {
-                    final message = messages[index];
-                    return ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: _buildStatusIcon(message.status),
-                      title: Text(message.recipient),
-                      subtitle: Text(
-                        '${DateFormat('MMM d, HH:mm').format(message.sentAt)} • ${message.segmentCount} segments',
-                      ),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            '${message.currency} ${message.cost.toStringAsFixed(4)}',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+            Flexible(
+              child: SingleChildScrollView(
+                child: historyAsync.when(
+                  data: (messages) {
+                    if (messages.isEmpty) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 32.0),
+                        child: Center(child: Text('No messages sent yet.')),
+                      );
+                    }
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: messages.length,
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemBuilder: (context, index) {
+                        final message = messages[index];
+                        return ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: _buildStatusIcon(message.status),
+                          title: Text(message.recipient),
+                          subtitle: Text(
+                            '${DateFormat('MMM d, HH:mm').format(message.sentAt)} • ${message.segmentCount} segments',
                           ),
-                          Text(
-                            message.status.name.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: _getStatusColor(message.status),
-                              fontWeight: FontWeight.bold,
+                          trailing: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 120),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  '${message.currency} ${message.cost.toStringAsFixed(4)}',
+                                  textAlign: TextAlign.end,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  message.status.name.toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: _getStatusColor(message.status),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Text(
-                'Error: $err',
-                style: const TextStyle(color: Colors.red),
+                  loading: () => const Padding(
+                    padding: EdgeInsets.all(32.0),
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+                  error: (err, stack) => Text(
+                    'Error: $err',
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ),
               ),
             ),
           ],
