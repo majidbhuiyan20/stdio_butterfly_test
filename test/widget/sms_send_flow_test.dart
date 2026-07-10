@@ -19,14 +19,8 @@ void main() {
 
   Widget createWidgetUnderTest() {
     return ProviderScope(
-      overrides: [
-        smsRepositoryProvider.overrideWithValue(mockRepository),
-      ],
-      child: const MaterialApp(
-        home: Scaffold(
-          body: SmsSendForm(),
-        ),
-      ),
+      overrides: [smsRepositoryProvider.overrideWithValue(mockRepository)],
+      child: const MaterialApp(home: Scaffold(body: SmsSendForm())),
     );
   }
 
@@ -41,10 +35,12 @@ void main() {
       sentAt: DateTime.now(),
     );
 
-    when(() => mockRepository.sendSms(
-          to: any(named: 'to'),
-          body: any(named: 'body'),
-        )).thenAnswer((_) async => successMessage);
+    when(
+      () => mockRepository.sendSms(
+        to: any(named: 'to'),
+        body: any(named: 'body'),
+      ),
+    ).thenAnswer((_) async => successMessage);
 
     await tester.pumpWidget(createWidgetUnderTest());
 
@@ -62,10 +58,9 @@ void main() {
     await tester.pumpAndSettle(); // Finish request and animations
 
     // Verify repository was called
-    verify(() => mockRepository.sendSms(
-          to: '+4915112345678',
-          body: 'Hello Test',
-        )).called(1);
+    verify(
+      () => mockRepository.sendSms(to: '+4915112345678', body: 'Hello Test'),
+    ).called(1);
 
     // Verify success snackbar
     expect(find.text('Success'), findsOneWidget);
@@ -76,10 +71,12 @@ void main() {
   });
 
   testWidgets('Send SMS failure flow (API Error)', (tester) async {
-    when(() => mockRepository.sendSms(
-          to: any(named: 'to'),
-          body: any(named: 'body'),
-        )).thenThrow(Exception('Rate limit exceeded'));
+    when(
+      () => mockRepository.sendSms(
+        to: any(named: 'to'),
+        body: any(named: 'body'),
+      ),
+    ).thenThrow(Exception('Rate limit exceeded'));
 
     await tester.pumpWidget(createWidgetUnderTest());
 
@@ -105,9 +102,11 @@ void main() {
       find.text('Invalid E.164 format (e.g. +4915112345678)'),
       findsOneWidget,
     );
-    verifyNever(() => mockRepository.sendSms(
-          to: any(named: 'to'),
-          body: any(named: 'body'),
-        ));
+    verifyNever(
+      () => mockRepository.sendSms(
+        to: any(named: 'to'),
+        body: any(named: 'body'),
+      ),
+    );
   });
 }

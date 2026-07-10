@@ -43,10 +43,7 @@ class SmsRepositoryImpl implements SmsRepository {
   }) async {
     final response = await _apiClient.get(
       ApiEndpoints.costBreakdown,
-      query: {
-        'from': from.toIso8601String(),
-        'to': to.toIso8601String(),
-      },
+      query: {'from': from.toIso8601String(), 'to': to.toIso8601String()},
     );
     return CostBreakdownModel.fromJson(response);
   }
@@ -55,10 +52,7 @@ class SmsRepositoryImpl implements SmsRepository {
   Future<List<SmsMessage>> getMessages({String? cursor, int limit = 50}) async {
     final response = await _apiClient.get(
       ApiEndpoints.messagesHistory,
-      query: {
-        if (cursor != null) 'cursor': cursor,
-        'limit': limit.toString(),
-      },
+      query: {if (cursor != null) 'cursor': cursor, 'limit': limit.toString()},
     );
 
     final items = response['items'] as List<dynamic>;
