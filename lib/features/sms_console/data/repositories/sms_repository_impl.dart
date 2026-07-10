@@ -22,7 +22,7 @@ class SmsRepositoryImpl implements SmsRepository {
     final response = await _apiClient.post(ApiEndpoints.sendSms, {
       'to': to,
       'body': body,
-      if (referenceId != null) 'referenceId': referenceId,
+      ?'referenceId': referenceId,
     });
 
     return SmsMessageModel(
@@ -52,7 +52,7 @@ class SmsRepositoryImpl implements SmsRepository {
   Future<List<SmsMessage>> getMessages({String? cursor, int limit = 50}) async {
     final response = await _apiClient.get(
       ApiEndpoints.messagesHistory,
-      query: {if (cursor != null) 'cursor': cursor, 'limit': limit.toString()},
+      query: {?'cursor': cursor, 'limit': limit.toString()},
     );
 
     final items = response['items'] as List<dynamic>;
