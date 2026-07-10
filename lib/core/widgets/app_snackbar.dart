@@ -23,7 +23,7 @@ class AppSnackBar {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
+                  color: Colors.white.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(_getIcon(type), color: Colors.white, size: 22),
@@ -48,7 +48,7 @@ class AppSnackBar {
                     Text(
                       message,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
                       ),

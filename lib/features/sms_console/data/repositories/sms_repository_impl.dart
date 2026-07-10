@@ -1,12 +1,12 @@
 import 'package:decimal/decimal.dart';
 
+import '../../../../core/network/api_client.dart';
+import '../../../../core/network/api_endpoints.dart';
 import '../../domain/entities/cost_breakdown.dart';
 import '../../domain/entities/sms_message.dart';
 import '../../domain/repositories/sms_repository.dart';
 import '../models/cost_breakdown_model.dart';
 import '../models/sms_message_model.dart';
-import '../../../../core/network/api_client.dart';
-import '../../../../core/network/api_endpoints.dart';
 
 class SmsRepositoryImpl implements SmsRepository {
   final ApiClient _apiClient;
@@ -43,7 +43,10 @@ class SmsRepositoryImpl implements SmsRepository {
   }) async {
     final response = await _apiClient.get(
       ApiEndpoints.costBreakdown,
-      query: {'from': from.toIso8601String(), 'to': to.toIso8601String()},
+      query: {
+        'from': from.toIso8601String(),
+        'to': to.toIso8601String(),
+      },
     );
     return CostBreakdownModel.fromJson(response);
   }
@@ -52,7 +55,10 @@ class SmsRepositoryImpl implements SmsRepository {
   Future<List<SmsMessage>> getMessages({String? cursor, int limit = 50}) async {
     final response = await _apiClient.get(
       ApiEndpoints.messagesHistory,
-      query: {if (cursor != null) 'cursor': cursor, 'limit': limit.toString()},
+      query: {
+        if (cursor != null) 'cursor': cursor,
+        'limit': limit.toString(),
+      },
     );
 
     final items = response['items'] as List<dynamic>;

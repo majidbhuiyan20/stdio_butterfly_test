@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studio_butterfly_test/features/sms_console/presentation/pages/sms_console_page.dart';
 import 'package:studio_butterfly_test/features/sms_console/presentation/providers/sms_providers.dart';
-import 'package:studio_butterfly_test/features/sms_console/domain/repositories/sms_repository.dart';
 import 'package:studio_butterfly_test/features/sms_console/data/repositories/mock_sms_repository.dart';
 
 void main() {

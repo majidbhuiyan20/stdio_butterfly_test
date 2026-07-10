@@ -12,6 +12,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
       
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -20,6 +26,14 @@ jobs:
           
       - name: Install dependencies
         run: flutter pub get
+
+      # Since .env is ignored by git, we create a dummy one for the CI to pass build/analysis
+      - name: Create dummy .env
+        run: |
+          touch .env
+          echo "API_BASE_URL=http://api.test.com" >> .env
+          echo "API_KEY=test_key" >> .env
+          echo "TENANT_ID=test_tenant" >> .env
         
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
@@ -29,3 +43,12 @@ jobs:
         
       - name: Run tests
         run: flutter test
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk

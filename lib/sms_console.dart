@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
 // SMS Console — sends SMS via the Formwork channel API and shows monthly cost.
 // Generated with an AI coding assistant. Ships as-is.
 
