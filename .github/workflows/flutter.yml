@@ -2,46 +2,51 @@ name: Flutter CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v3
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '17'
-      
+          distribution: temurin
+          java-version: "17"
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          
-      - name: Install dependencies
+          flutter-version: "3.35.5"
+          channel: stable
+          cache: true
+
+      - name: Flutter Doctor
+        run: flutter doctor -v
+
+      - name: Install Dependencies
         run: flutter pub get
 
-      # Since .env is ignored by git, we create a dummy one for the CI to pass build/analysis
       - name: Create dummy .env
         run: |
-          touch .env
-          echo "API_BASE_URL=http://api.test.com" >> .env
-          echo "API_KEY=test_key" >> .env
-          echo "TENANT_ID=test_tenant" >> .env
-        
-      - name: Verify formatting
+          cat <<EOF > .env
+          API_BASE_URL=http://api.test.com
+          API_KEY=test_key
+          TENANT_ID=test_tenant
+          EOF
+
+      - name: Verify Formatting
         run: dart format --output=none --set-exit-if-changed .
-        
-      - name: Analyze project
+
+      - name: Analyze
         run: flutter analyze
-        
-      - name: Run tests
+
+      - name: Run Tests
         run: flutter test
 
       - name: Build APK
